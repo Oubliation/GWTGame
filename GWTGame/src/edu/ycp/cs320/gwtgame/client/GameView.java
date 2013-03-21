@@ -37,10 +37,14 @@ public class GameView extends Composite {
 		
 		this.buffer = Canvas.createIfSupported();
 		buffer.setSize("640px", "480px");
+		buffer.setCoordinateSpaceWidth(640);
+		buffer.setCoordinateSpaceHeight(480);
 		this.bufCtx = buffer.getContext2d();
 		
 		this.canvas = Canvas.createIfSupported();
 		canvas.setSize("640px", "480px");
+		canvas.setCoordinateSpaceWidth(640);
+		canvas.setCoordinateSpaceHeight(480);
 		this.ctx = canvas.getContext2d();
 		panel.add(canvas);
 		
@@ -108,48 +112,46 @@ public class GameView extends Composite {
 	}
 	
 	protected void paint() {
-		/*
 		// Draw onto buffer
 		bufCtx.setFillStyle("black");
 		bufCtx.fillRect(0, 0, 640, 480);
 		
-		//bufCtx.drawImage((ImageElement) playerShipSprite.getElement().cast(), model.getPlayer().getX(), model.getPlayer().getY());
-		bufCtx.setFillStyle("green");
-		bufCtx.fillRect(model.getPlayer().getX(), model.getPlayer().getY(), 30, 15);
+		bufCtx.drawImage((ImageElement) playerShipSprite.getElement().cast(), model.getPlayer().getX(), model.getPlayer().getY());
+//		bufCtx.setFillStyle("green");
+//		bufCtx.fillRect(model.getPlayer().getX(), model.getPlayer().getY(), 30, 15);
 		
 		for (EnemyShip enemy : model.getEnemyList()) {
-			//bufCtx.drawImage((ImageElement) enemyShipSprite.getElement().cast(), enemy.getX(), enemy.getY());
-			bufCtx.setFillStyle("red");
-			bufCtx.fillRect(enemy.getX(), enemy.getY(), 30, 15);
+			bufCtx.drawImage((ImageElement) enemyShipSprite.getElement().cast(), enemy.getX(), enemy.getY());
+//			bufCtx.setFillStyle("red");
+//			bufCtx.fillRect(enemy.getX(), enemy.getY(), 30, 15);
 		}
 		
 		// Copy buffer onto main canvas
 		ctx.drawImage((CanvasElement) buffer.getElement().cast(), 0, 0);
-		*/
 		
 		//GWT.log("paint!");
 		
-		ctx.setFillStyle("blue");
-		ctx.fillRect(0, 0, 640, 480);
-		
-//		ctx.setFillStyle("red");
-//		ctx.fillRect(40, 40, 100, 50);
-
-		ctx.setFillStyle("green");
-		int playerX = model.getPlayer().getX();
-		int playerY = model.getPlayer().getY();
-		//GWT.log("Player: x=" + playerX + ", y=" + playerY);
-		ctx.fillRect(playerX, playerY, 100, 50);
-		/*
-		//bufCtx.drawImage((ImageElement) playerShipSprite.getElement().cast(), model.getPlayer().getX(), model.getPlayer().getY());
-		ctx.setFillStyle("green");
-		ctx.fillRect(model.getPlayer().getX(), model.getPlayer().getY(), 30, 15);
-		
-		for (EnemyShip enemy : model.getEnemyList()) {
-			//bufCtx.drawImage((ImageElement) enemyShipSprite.getElement().cast(), enemy.getX(), enemy.getY());
-			ctx.setFillStyle("red");
-			ctx.fillRect(enemy.getX(), enemy.getY(), 30, 15);
-		}
-		*/
+//		ctx.setFillStyle("blue");
+//		ctx.fillRect(0, 0, 640, 480);
+//		
+////		ctx.setFillStyle("red");
+////		ctx.fillRect(40, 40, 100, 50);
+//
+//		ctx.setFillStyle("green");
+//		int playerX = model.getPlayer().getX();
+//		int playerY = model.getPlayer().getY();
+//		//GWT.log("Player: x=" + playerX + ", y=" + playerY);
+//		ctx.fillRect(playerX, playerY, 100, 50);
+//		/*
+//		//bufCtx.drawImage((ImageElement) playerShipSprite.getElement().cast(), model.getPlayer().getX(), model.getPlayer().getY());
+//		ctx.setFillStyle("green");
+//		ctx.fillRect(model.getPlayer().getX(), model.getPlayer().getY(), 30, 15);
+//		
+//		for (EnemyShip enemy : model.getEnemyList()) {
+//			//bufCtx.drawImage((ImageElement) enemyShipSprite.getElement().cast(), enemy.getX(), enemy.getY());
+//			ctx.setFillStyle("red");
+//			ctx.fillRect(enemy.getX(), enemy.getY(), 30, 15);
+//		}
+//		*/
 	}
 }

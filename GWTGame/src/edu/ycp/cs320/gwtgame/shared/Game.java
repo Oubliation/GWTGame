@@ -16,8 +16,8 @@ public class Game {
 		enemyList.add(enemy);
 		
 		this.player = new PlayerShip();
-		player.setX(40);
-		player.setY(40);
+		player.setX(310);
+		player.setY(400);
 	}
 	
 	public List<EnemyShip> getEnemyList() {
