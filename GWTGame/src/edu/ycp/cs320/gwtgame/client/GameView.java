@@ -108,7 +108,7 @@ public class GameView extends Composite {
 	}
 	
 	public void activate() {
-		timer.scheduleRepeating(500);
+		timer.scheduleRepeating(1000 / 30);
 	}
 	
 	protected void paint() {
