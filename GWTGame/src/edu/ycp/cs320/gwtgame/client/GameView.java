@@ -2,7 +2,6 @@ package edu.ycp.cs320.gwtgame.client;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -18,6 +17,9 @@ import edu.ycp.cs320.gwtgame.shared.EnemyShip;
 import edu.ycp.cs320.gwtgame.shared.Game;
 import edu.ycp.cs320.gwtgame.shared.GameController;
 
+/**
+ * View for {@link Game} model class.
+ */
 public class GameView extends Composite {
 	private Game model;
 	private GameController controller;
@@ -32,18 +34,23 @@ public class GameView extends Composite {
 	public GameView() {
 		controller = new GameController();
 		
+		// A canvas needs to be in a FocusPanel if it will handle keyboard input.
 		FocusPanel panel = new FocusPanel();
-		panel.setSize("640px", "480px");
+		panel.setSize(Game.WIDTH + "px", 480 + "px");
 		
+		// We use the "buffer" canvas as an off-screen drawing surface where
+		// each frame is rendered.
 		this.buffer = Canvas.createIfSupported();
-		buffer.setSize("640px", "480px");
-		buffer.setCoordinateSpaceWidth(640);
+		buffer.setSize(Game.WIDTH + "px", 480 + "px");
+		buffer.setCoordinateSpaceWidth(Game.WIDTH);
 		buffer.setCoordinateSpaceHeight(480);
 		this.bufCtx = buffer.getContext2d();
 		
+		// The visible canvas: contents of buffer are copied here once
+		// a frame has been rendered.
 		this.canvas = Canvas.createIfSupported();
-		canvas.setSize("640px", "480px");
-		canvas.setCoordinateSpaceWidth(640);
+		canvas.setSize(Game.WIDTH + "px", 480 + "px");
+		canvas.setCoordinateSpaceWidth(Game.WIDTH);
 		canvas.setCoordinateSpaceHeight(480);
 		this.ctx = canvas.getContext2d();
 		panel.add(canvas);
@@ -61,7 +68,6 @@ public class GameView extends Composite {
 				handleKeyUp(event);
 			}
 		});
-		
 		
 		initWidget(panel);
 
@@ -111,47 +117,25 @@ public class GameView extends Composite {
 		timer.scheduleRepeating(1000 / 30);
 	}
 	
+	// Render one frame of animation.
 	protected void paint() {
 		// Draw onto buffer
 		bufCtx.setFillStyle("black");
-		bufCtx.fillRect(0, 0, 640, 480);
+		bufCtx.fillRect(0, 0, Game.WIDTH, 480);
 		
-		bufCtx.drawImage((ImageElement) playerShipSprite.getElement().cast(), model.getPlayer().getX(), model.getPlayer().getY());
-//		bufCtx.setFillStyle("green");
-//		bufCtx.fillRect(model.getPlayer().getX(), model.getPlayer().getY(), 30, 15);
+		bufCtx.drawImage(
+				(ImageElement) playerShipSprite.getElement().cast(),
+				model.getPlayer().getX(),
+				model.getPlayer().getY());
 		
 		for (EnemyShip enemy : model.getEnemyList()) {
-			bufCtx.drawImage((ImageElement) enemyShipSprite.getElement().cast(), enemy.getX(), enemy.getY());
-//			bufCtx.setFillStyle("red");
-//			bufCtx.fillRect(enemy.getX(), enemy.getY(), 30, 15);
+			bufCtx.drawImage(
+					(ImageElement) enemyShipSprite.getElement().cast(),
+					enemy.getX(),
+					enemy.getY());
 		}
 		
 		// Copy buffer onto main canvas
 		ctx.drawImage((CanvasElement) buffer.getElement().cast(), 0, 0);
-		
-		//GWT.log("paint!");
-		
-//		ctx.setFillStyle("blue");
-//		ctx.fillRect(0, 0, 640, 480);
-//		
-////		ctx.setFillStyle("red");
-////		ctx.fillRect(40, 40, 100, 50);
-//
-//		ctx.setFillStyle("green");
-//		int playerX = model.getPlayer().getX();
-//		int playerY = model.getPlayer().getY();
-//		//GWT.log("Player: x=" + playerX + ", y=" + playerY);
-//		ctx.fillRect(playerX, playerY, 100, 50);
-//		/*
-//		//bufCtx.drawImage((ImageElement) playerShipSprite.getElement().cast(), model.getPlayer().getX(), model.getPlayer().getY());
-//		ctx.setFillStyle("green");
-//		ctx.fillRect(model.getPlayer().getX(), model.getPlayer().getY(), 30, 15);
-//		
-//		for (EnemyShip enemy : model.getEnemyList()) {
-//			//bufCtx.drawImage((ImageElement) enemyShipSprite.getElement().cast(), enemy.getX(), enemy.getY());
-//			ctx.setFillStyle("red");
-//			ctx.fillRect(enemy.getX(), enemy.getY(), 30, 15);
-//		}
-//		*/
 	}
 }

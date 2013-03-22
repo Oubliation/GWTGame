@@ -4,8 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
+	/** Width of playing field. */
+	public static final int WIDTH = 640;
+	
+	/** Height of playing field. */
+	public static final int HEIGHT = 480;
+	
 	private List<EnemyShip> enemyList;
 	private PlayerShip player;
+
+	public static final int EDGE = 8;
 	
 	public Game() {
 		this.enemyList = new ArrayList<EnemyShip>();
