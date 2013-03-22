@@ -31,27 +31,30 @@ public class GameView extends Composite {
 	private Image playerShipSprite;
 	private Image enemyShipSprite;
 	
+	/**
+	 * Constructor.
+	 */
 	public GameView() {
 		controller = new GameController();
 		
 		// A canvas needs to be in a FocusPanel if it will handle keyboard input.
 		FocusPanel panel = new FocusPanel();
-		panel.setSize(Game.WIDTH + "px", 480 + "px");
+		panel.setSize(Game.WIDTH + "px", Game.HEIGHT + "px");
 		
 		// We use the "buffer" canvas as an off-screen drawing surface where
 		// each frame is rendered.
 		this.buffer = Canvas.createIfSupported();
-		buffer.setSize(Game.WIDTH + "px", 480 + "px");
+		buffer.setSize(Game.WIDTH + "px", Game.HEIGHT + "px");
 		buffer.setCoordinateSpaceWidth(Game.WIDTH);
-		buffer.setCoordinateSpaceHeight(480);
+		buffer.setCoordinateSpaceHeight(Game.HEIGHT);
 		this.bufCtx = buffer.getContext2d();
 		
 		// The visible canvas: contents of buffer are copied here once
 		// a frame has been rendered.
 		this.canvas = Canvas.createIfSupported();
-		canvas.setSize(Game.WIDTH + "px", 480 + "px");
+		canvas.setSize(Game.WIDTH + "px", Game.HEIGHT + "px");
 		canvas.setCoordinateSpaceWidth(Game.WIDTH);
-		canvas.setCoordinateSpaceHeight(480);
+		canvas.setCoordinateSpaceHeight(Game.HEIGHT);
 		this.ctx = canvas.getContext2d();
 		panel.add(canvas);
 		
@@ -109,10 +112,18 @@ public class GameView extends Composite {
 		}
 	}
 
+	/**
+	 * Set the {@link Game} model object.
+	 * 
+	 * @param model the model object to set
+	 */
 	public void setModel(Game model) {
 		this.model = model;
 	}
 	
+	/**
+	 * Start the animation timer.
+	 */
 	public void activate() {
 		timer.scheduleRepeating(1000 / 30);
 	}
@@ -120,14 +131,18 @@ public class GameView extends Composite {
 	// Render one frame of animation.
 	protected void paint() {
 		// Draw onto buffer
-		bufCtx.setFillStyle("black");
-		bufCtx.fillRect(0, 0, Game.WIDTH, 480);
 		
+		// Draw background
+		bufCtx.setFillStyle("black");
+		bufCtx.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+		
+		// Draw player ship
 		bufCtx.drawImage(
 				(ImageElement) playerShipSprite.getElement().cast(),
 				model.getPlayer().getX(),
 				model.getPlayer().getY());
 		
+		// Draw enemy ship(s)
 		for (EnemyShip enemy : model.getEnemyList()) {
 			bufCtx.drawImage(
 					(ImageElement) enemyShipSprite.getElement().cast(),

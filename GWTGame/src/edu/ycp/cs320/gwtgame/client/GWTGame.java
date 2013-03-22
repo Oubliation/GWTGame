@@ -2,6 +2,7 @@ package edu.ycp.cs320.gwtgame.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
@@ -26,14 +27,25 @@ public class GWTGame implements EntryPoint {
 		playerShipSprite = new Image(playerSpriteUrl);
 		enemyShipSprite = new Image(enemySpriteUrl);
 
+		// Create Game model and view objects.
 		Game game = new Game();
 		GameView view = new GameView();
 		view.setModel(game);
 		
-		RootLayoutPanel.get().add(playerShipSprite);
-		RootLayoutPanel.get().add(enemyShipSprite);
+		// Note that the Image widgets actually need to be part of the
+		// DOM tree in order to draw them on the canvas.
+		// Put them in a FlowPanel (div element) that has size 0x0
+		// so they will not be directly visible.
+		FlowPanel imagePanel = new FlowPanel();
+		imagePanel.add(playerShipSprite);
+		imagePanel.add(enemyShipSprite);
+		imagePanel.setSize("0px", "0px");
+		RootLayoutPanel.get().add(imagePanel);
+
+		// Add the view
 		RootLayoutPanel.get().add(view);
 		
+		// Give the view references to the Images it will need to do its drawing.
 		view.setPlayerShipSprite(playerShipSprite);
 		view.setEnemyShipSprite(enemyShipSprite);
 
